@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Room\StoreRoomRequest;
 use App\Http\Requests\Room\UpdateRoomRequest;
+use App\Http\Resources\Room\BookingRoomResource;
 use App\Http\Resources\Room\RoomDetailResource;
 use App\Http\Resources\Room\RoomResource;
 use App\Models\Room;
@@ -109,5 +110,25 @@ class RoomController
     {
         $room->delete();
         return response()->noContent();
+    }
+
+    public function availability(Room $room)
+    {
+        $start = now()->startOfDay();
+        $end = now()->addDays(30)->endOfDay();
+
+        $room->load([
+            'roomType',
+            'images',
+            'bookings' => function ($query) use ($start, $end) {
+                $query->where('checkin_date', '<=', $end)
+                    ->where('checkout_date', '>=', $start)
+                    ->select('id', 'room_id', 'checkin_date', 'checkout_date');
+            }
+        ]);
+
+        return (new BookingRoomResource($room))
+            ->response()
+            ->setStatusCode(200);
     }
 }

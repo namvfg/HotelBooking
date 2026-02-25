@@ -6,7 +6,7 @@ use App\Enums\BookingStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Booking extends Model
@@ -37,9 +37,9 @@ class Booking extends Model
         return $this->belongsTo(Room::class);
     }
 
-    public function payments(): HasMany
+    public function payment(): HasOne
     {
-        return $this->hasMany(Payment::class);
+        return $this->hasOne(Payment::class);
     }
 
     public function duration(): int

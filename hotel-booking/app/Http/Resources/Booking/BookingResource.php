@@ -5,7 +5,8 @@ namespace App\Http\Resources\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BookingResource extends JsonResource {
+class BookingResource extends JsonResource
+{
     public function toArray(Request $request)
     {
         return [
@@ -15,9 +16,10 @@ class BookingResource extends JsonResource {
             "checkin_date" => $this->checkin_date,
             "checkout_date" => $this->checkout_date,
             "total_price" => $this->total_price,
+            "payment_id" => $this->payment?->id,
+            "payment_status" => $this->payment?->status,
             "status" => $this->status,
             "created_at" => $this->created_at,
         ];
     }
 }
-

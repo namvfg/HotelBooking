@@ -48,6 +48,34 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // ===== BOOKINGS =====
     Route::apiResource('bookings', BookingController::class);
+    Route::get('my-bookings', [BookingController::class, 'myBookings']);
+
+    // ===== PAYMENTS =====
+    Route::prefix('payments')->group(function () {
+        // GET /api/payments
+        Route::get('/', [PaymentController::class, 'index'])
+            ->name('payments.index');
+
+        // POST /api/payments
+        Route::post('/', [PaymentController::class, 'store'])
+            ->name('payments.store');
+
+        // GET /api/payments/{payment}
+        Route::get('/{payment}', [PaymentController::class, 'show'])
+            ->name('payments.show')
+            ->whereNumber('payment'); // tránh conflict string
+
+        // PUT/PATCH /api/payments/{payment}
+        Route::match(['put', 'patch'], '/{payment}', [PaymentController::class, 'update'])
+            ->name('payments.update')
+            ->whereNumber('payment');
+
+        // DELETE /api/payments/{payment}
+        Route::delete('/{payment}', [PaymentController::class, 'destroy'])
+            ->name('payments.destroy')
+            ->whereNumber('payment');
+    });
+    Route::post('/payments/{payment}/vnpay', [PaymentController::class, 'createVnpay']);
 });
 
 /*
@@ -83,9 +111,6 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     // ===== ROOM TYPES =====
     Route::apiResource('room-types', RoomTypeController::class)->except(['index', 'show']);
-
-    // ===== PAYMENTS =====
-    Route::apiResource('payments', PaymentController::class);
 });
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {});
@@ -105,6 +130,7 @@ Route::get('search-hotels', [HotelController::class, 'detailSearch']);
 // ===== ROOMS =====
 Route::get('rooms', [RoomController::class, 'index']);
 Route::get('rooms/{room}', [RoomController::class, 'show']);
+Route::get('/rooms/{room}/availability', [RoomController::class, 'availability']);
 
 Route::post("/admin/login", [AuthController::class, "login"]);
 
@@ -113,3 +139,5 @@ Route::post("/login", [UserAuthController::class, "login"]);
 Route::prefix("user")->middleware("auth:sanctum")->group(function () {
     Route::get("/me", [UserAuthController::class, "me"]);
 });
+
+Route::get('/payments/vnpay-return', [PaymentController::class, 'vnpayReturn']);

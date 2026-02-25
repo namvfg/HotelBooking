@@ -28,6 +28,7 @@ export const endpoints = {
     //rooms
     "rooms": "/rooms",
     "room-detail" : (roomId: number) => `/rooms/${roomId}`,
+    "room-availability" : (roomId: number) => `/rooms/${roomId}/availability`,
 
     //amenities
     "amenities": "/amenities",
@@ -35,6 +36,12 @@ export const endpoints = {
 
     //bookings
     "bookings": "/bookings",
+    "my-bookings": "/my-bookings",
+    
+    //payments
+    "payment-detail": (paymentId: number) => `/payments/${paymentId}`,
+    "payment-vnpay": (paymentId: number) => `/payments/${paymentId}/vnpay`,
+    
 
     //authorize
     "admin-login": "/admin/login",

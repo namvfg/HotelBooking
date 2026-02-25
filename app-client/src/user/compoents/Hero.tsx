@@ -19,7 +19,7 @@ const Hero = () => {
       if (value) params.append(key, value);
     });
 
-    navigate(`/hotels?${params.toString()}`);
+    navigate(`/hotels/search?${params.toString()}`);
   };
 
   return (

@@ -7,6 +7,10 @@ import HotelSearchResult from "./pages/HotelSearchResult";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Booking from "./pages/Booking";
+import MyBookings from "./pages/MyBookings";
+import Payment from "./pages/Payment";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentFailed from "./pages/PaymentFailed";
 
 
 export const userRoutes = (
@@ -19,7 +23,10 @@ export const userRoutes = (
             <Route path="/booking/:roomId" element={<Booking />} />
             <Route path="/register" element={<Register />}></Route>
             <Route path="/login" element={<Login />}></Route>
-            
+            <Route path="/my-bookings" element={<MyBookings />}></Route>
+            <Route path="/payments/:paymentId" element={<Payment />}></Route>
+            <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/payment-failed" element={<PaymentFailed />} />
         </Route>
     </>
 );

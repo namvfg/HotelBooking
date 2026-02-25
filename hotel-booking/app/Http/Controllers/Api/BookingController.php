@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\BookingStatus;
+use App\Enums\PaymentMethod;
+use App\Enums\PaymentStatus;
+use App\Enums\PaymentType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\StoreBookingRequest;
 use App\Http\Requests\Booking\UpdateBookingRequest;
 use App\Http\Resources\Booking\BookingDetailResource;
 use App\Http\Resources\Booking\BookingResource;
 use App\Models\Booking;
+use App\Models\Payment;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -67,9 +71,10 @@ class BookingController extends Controller
             $checkin = Carbon::parse($request->checkin_date);
             $checkout = Carbon::parse($request->checkout_date);
 
-            $days = $checkin->diffInDays($checkout);
+            $days = $checkin->diffInDays($checkout) + 1; // +1 vì cùng ngày vẫn tính 1 đêm
 
             $totalPrice = $days * $room->roomType->base_price;
+
 
             $booking = Booking::create([
                 'user_id'       => auth('sanctum')->id(),
@@ -81,9 +86,21 @@ class BookingController extends Controller
                 'note'          => $request->note,
             ]);
 
+
+            $payment = Payment::create([
+                'booking_id' => $booking->id,
+                'amount'     => $totalPrice,
+                'method'     => PaymentMethod::VNPAY,
+                'type'       => PaymentType::PAYMENT,
+                'status'     => PaymentStatus::PENDING,
+            ]);
+
             return response()->json([
-                'message' => 'Đặt phòng thành công',
-                'data'    => $booking->load('room')
+                'message' => 'Tạo booking và payment thành công',
+                'data' => [
+                    'booking' => $booking->load('room'),
+                    'payment' => $payment
+                ]
             ], 201);
         });
     }
@@ -118,5 +135,20 @@ class BookingController extends Controller
     {
         $booking->delete();
         return response()->noContent();
+    }
+
+    public function myBookings(Request $request)
+    {
+        $user = $request->user();
+
+        $bookings = Booking::with([
+            'room',
+            'payment'
+        ])
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return BookingResource::collection($bookings);
     }
 }

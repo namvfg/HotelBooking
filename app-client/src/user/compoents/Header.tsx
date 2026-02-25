@@ -119,6 +119,14 @@ const UserHeader = () => {
                                     Thông tin cá nhân
                                 </Link>
 
+                                <Link
+                                    to="/my-bookings"
+                                    className="block px-4 py-2 hover:bg-gray-100"
+                                    onClick={() => setOpen(false)}
+                                >
+                                    Danh sách Bookings
+                                </Link>
+
                                 {/* Nếu là manager */}
                                 {state.user?.role === "manager" && (
                                     <Link

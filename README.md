@@ -136,6 +136,7 @@ php artisan view:clear
 - Use PHP-FPM with Nginx
 - Ensure `storage/` and `bootstrap/cache/` are writable
 - Configure Nginx to route `/api` to Laravel
+- Project is in progress, please fogive me if it does not work.
 
 ---
 

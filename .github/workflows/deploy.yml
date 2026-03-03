@@ -21,7 +21,9 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /var/www/backend
+            git reset --hard
             git pull origin main
+            cd hotel-booking
             composer install --no-dev --optimize-autoloader
             php artisan migrate --force
             php artisan config:cache

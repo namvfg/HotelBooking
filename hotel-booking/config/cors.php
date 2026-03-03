@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173', 'https://duckou.id.vn'],
+    'allowed_origins' => ['http://localhost:5173', 'https://duckou.id.vn', "http://www.hotel.duckou.id.vn", "http://149.28.135.167"],
 
     'allowed_origins_patterns' => [],
 

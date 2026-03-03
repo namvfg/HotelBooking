@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\RoomImageController;
 use App\Http\Controllers\Api\RoomTypeController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\UserAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    // ===== PROFILE =====
+    Route::get('/profile', [ProfileController::class, 'show']);
+    Route::put('/profile', [ProfileController::class, 'update']);
 
     // ===== AMENITIES =====
     Route::get('amenities', [AmenityController::class, 'index']);

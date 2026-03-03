@@ -21,7 +21,7 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'email' => "admin@gmail.com",
             'phone' => fake()->phoneNumber(),
             'role' => Role::USER,
             'avatar_url' => fake()->imageUrl(800, 600, 'avatar'),

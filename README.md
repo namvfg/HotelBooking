@@ -141,5 +141,5 @@ php artisan view:clear
 ---
 
 ## 10. Link Demo
-User Demo: http://www.hotel.duckou.id.vn/  
-Admin Demo: http://www.hotel.duckou.id.vn/admin/login 
+User Demo: http://149.28.135.167/
+Admin Demo: http://149.28.135.167/admin/login 
